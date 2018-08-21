@@ -22,51 +22,52 @@ function setUpPage() {
 function validateForm(evt) {
 
     validateRequired();
-    
+
     if (evt.preventDefault) {
         evt.preventDefault();
-      
+
     } else {
         evt.returnValue = false;
+    }
+    if (formValidity === true) {
+        document.getElementsByTagName("form")[0].submit();
+
     }
 
 }
 
 //function to validate required 
-function validateRequired(fieldsetId) {
-    var inputElements = document.querySelectorAll("#" + fieldsetId + " input");
-    var errorDiv = document.querySelectorAll("#" + fieldsetId + " .errorMessage")[0];
-    var fieldsetValidity = true;
-    var elementCount = inputElements.length;
-    var currentElement = null;
-   
+function validateRequired() {
     try {
-       
-
-       
+        var selectElements = document.querySelectorAll("#contactinfo input");
+        var errorDiv = document.getElementById("errorText");
+        var fieldsetValidity = true;
+        var elementCount = selectElements.length;
+        var currentElement = null;
         // Loop required input elements
         for (var i = 0; i < elementCount; i++) {
-            alert("hello");
-            currentElement = inputElements[i];
+
+            currentElement = selectElements[i];
             if (currentElement.value === "") {
                 currentElement.style.background = "rgb(255, 233, 233)";
                 fieldsetValidity = false;
             } else {
                 currentElement.style.background = "white";
             }
-            if (fieldsetValidity === false) {
-                // throw "Fill in all Fields";
-            } else {
-                fieldsetValidity = true;
-            }
-         
+        }
+        if (fieldsetValidity) {
+            errorDiv.style.display = "none";
+            errorDiv.innerHTML = "";
+           
+        } else {
+           
+            throw "Fill in all Fields";
         }
     } catch (msg) {
         errorDiv.style.display = "block";
         errorDiv.innerHTML = msg;
         formValidity = false;
     }
-
 }
 //eventlisteners for the load event
 function createEventListeners() {
